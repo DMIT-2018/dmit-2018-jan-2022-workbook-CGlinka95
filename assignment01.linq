@@ -20,11 +20,11 @@ Albums
 	.Select(x => new
 	{
 		Title = x.Title,
-		Decade = x.ReleaseYear <= 1969 ? "Oldies" && 
-				 x.ReleaseYear >= 1970 ? "70s" &&
-				 x.ReleaseYear >= 1980 ? "80s" &&
-				 x.ReleaseYear >= 1990 ? "90s" &&
-				 x.ReleaseYear >= 2000 ? "Modern" : x.ReleaseYear,
-		Artist = x.Artist.Name
+		Artist = x.Artist.Name,
+		Year = x.ReleaseYear,
+		Decade = x.ReleaseYear < 1970 ? "Oldies" :
+				 	x.ReleaseYear < 1980 ? "70s" :
+					x.ReleaseYear < 1990 ? "80s" :
+					x.ReleaseYear < 2000 ? "90s" : "Modern"
 	})
-	.OrderByDescending(x => x.Decade)
+	.OrderBy(x => x.Year) 
