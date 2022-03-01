@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-#region
+#region Additional Namepsaces
 using ChinookSystem.BLL;
 using ChinookSystem.ViewModels;
 #endregion
@@ -24,7 +24,6 @@ namespace WebApp.Pages
         #endregion
 
         #region Feedback and ErrorHandling
-        [TempData]
         public string FeedBack { get; set; }
         public bool HasFeedBack => !string.IsNullOrWhiteSpace(FeedBack);
         #endregion
@@ -40,8 +39,7 @@ namespace WebApp.Pages
             }
             else
             {
-                FeedBack = $"Version: {info.Major}.{info.Minor}.{info.Build}" +
-                    $" Release date of {info.ReleaseDate.ToShortDateString()}";
+                FeedBack = $"Version: {info.Major}.{info.Minor}.{info.Build}" + $" Release date of {info.ReleaseDate.ToShortDateString()}";
             }
         }
     }

@@ -28,6 +28,18 @@ namespace ChinookSystem
                 // Create an instance of the service and return the instance
                 return new AboutServices(context);
             });
+            services.AddTransient<GenreServices>((serviceProvider) =>
+            {
+                var context = serviceProvider.GetRequiredService<ChinookContext>();
+                // Create an instance of the service and return the instance
+                return new GenreServices(context);
+            });
+            services.AddTransient<AlbumServices>((serviceProvider) =>
+            {
+                var context = serviceProvider.GetRequiredService<ChinookContext>();
+                // Create an instance of the service and return the instance
+                return new AlbumServices(context);
+            });
         }
     }
 }
