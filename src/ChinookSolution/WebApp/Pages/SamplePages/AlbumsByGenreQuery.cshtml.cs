@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 #region Additional Namepsaces
 using ChinookSystem.BLL;
 using ChinookSystem.ViewModels;
+using WebApp.Helpers;
 #endregion
 
 namespace WebApp.Pages.SamplePages
@@ -44,7 +45,17 @@ namespace WebApp.Pages.SamplePages
 
         [BindProperty]
         public List<AlbumsListBy> AlbumsByGenre { get; set; }
-        public void onGet()
+
+        #region Paginator variables
+        // My desired page size
+        private const int PAGE_SIZE = 5;
+        // Instance for the Paginator class
+        public Paginator Pager { get; set; } 
+        #endregion
+
+        // CurrentPage value will appear on your url as a Request parameter value
+        //      url address...?currentPage=n
+        public void OnGet(int? currentPage)
         {
             // OnGet is executed as the page is first processed (as it comes up)
 
@@ -57,7 +68,22 @@ namespace WebApp.Pages.SamplePages
             // Any code in this method MUST handle the possibility of missing data for the query argument
             if (GenreId.HasValue && GenreId.Value > 0)
             {
-                AlbumsByGenre = _albumServices.AlbumsByGenre((int)GenreId);
+                // Installation of the Paginator setup
+                //      1) Determine the page number to use with the Paginator
+                int pageNumber = currentPage.HasValue ? currentPage.Value : 1;
+                //      2) Use the page state to setup data needed for paging 
+                PageState current = new PageState(pageNumber, PAGE_SIZE);
+                //      3) Total rows in the complete query collection (data needed for paging)
+                int totalrows = 0;
+
+                // For efficiency of data being transferred, we will pass the current page number and the desired page size to the backend query
+                //      the returned collection with have ONLY the rows of the whole query collection that will actually be shown (PAGE_SIZE or less rows)
+                //      the total number of records for the whole query collection will be returned as an out parameter. This value is needed by the Paginator to setup it's display logic
+                AlbumsByGenre = _albumServices.AlbumsByGenre((int)GenreId,
+                                    pageNumber, PAGE_SIZE, out totalrows);   
+
+                //      4) Once the query is complete, use the returned total rows in instantiating an instance of the Paginator
+                Pager = new Paginator(totalrows, current);
             }
         }
 
