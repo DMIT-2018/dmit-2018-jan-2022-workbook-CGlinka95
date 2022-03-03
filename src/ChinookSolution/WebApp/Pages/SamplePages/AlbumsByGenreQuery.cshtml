@@ -53,6 +53,8 @@
 			</label>
 			<br/>
 			<button type="submit">Find Albums</button>
+			&nbsp;&nbsp;
+			<button type="submit" asp-page-handler="New">New Album</button>
 		</form>
 	</div>
 	<div class="onehalf">
@@ -86,7 +88,8 @@
 								*@
 								<td>
 									<a href="/SamplePages/CRUDAlbum/@item.AlbumId">
-									@item.Title</a></td>
+									   @item.Title
+									</a></td>
 								<td>@item.ReleaseYear</td>
 								<td>@item.ReleaseLabel</td>
 								<td>@item.ArtistName</td>
