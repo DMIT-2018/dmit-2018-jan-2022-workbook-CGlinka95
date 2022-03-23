@@ -16,21 +16,17 @@ namespace ChinookSystem.Entities
             Tracks = new HashSet<Track>();
         }
 
-        //These properties hold actual data from your database
         [Key]
         public int AlbumId { get; set; }
-        [Required(ErrorMessage="Album title is required")]
-        [StringLength(160, ErrorMessage="Album title is limited to 160 characters")]
+        [Required]
+        [StringLength(160)]
         public string Title { get; set; }
         public int ArtistId { get; set; }
         public int ReleaseYear { get; set; }
-        [StringLength(50, ErrorMessage = "Album label is limited to 50 characters")]
+        [StringLength(50)]
         [Unicode(false)]
         public string ReleaseLabel { get; set; }
 
-        //These properties are your navigational properties
-        //These properties do NOT hold "real" data
-        //These properties are only in "context" during the execution of your query
         [ForeignKey(nameof(ArtistId))]
         [InverseProperty("Albums")]
         public virtual Artist Artist { get; set; }

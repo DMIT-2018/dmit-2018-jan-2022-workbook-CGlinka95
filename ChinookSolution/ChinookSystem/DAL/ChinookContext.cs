@@ -34,7 +34,7 @@ namespace ChinookSystem.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            object p = modelBuilder.UseCollation("Latin1_General_CI_AS");
+            modelBuilder.UseCollation("Latin1_General_CI_AS");
 
             modelBuilder.Entity<Album>(entity =>
             {
