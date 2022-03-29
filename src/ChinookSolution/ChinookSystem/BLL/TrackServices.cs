@@ -26,7 +26,7 @@ namespace ChinookSystem.BLL
         #endregion
 
         #region 
-        public List<TrackSelection> Track_FetchTrackBy(string searcharg,
+        public List<TrackSelection> Track_FetchTracksBy(string searcharg,
                                                        string searchby,
                                                        int pagenumber,
                                                        int pagesize,
