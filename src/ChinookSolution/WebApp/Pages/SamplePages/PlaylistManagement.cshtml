@@ -19,7 +19,6 @@
     display and collection of data from the Playlist table. This table will demonstrate
     an implementation of using CQRS data models. The error list display demonstrates the
     display of having multiple errors returned from a business service.
-
 </blockquote>
 
 @if (Model.HasFeedBack)
@@ -84,6 +83,14 @@
                                     @* code to demo a button on a table 
                                         using a icon
                                     *@
+                                    <form method="post">
+                                        <input type="hidden" value="@item.TrackId"
+                                               asp-for="addtrackid">
+                                        <button type="submit" title="Add this track"
+                                                asp-page-handler="AddTrack">
+                                            <i class="las la-plus"></i>
+                                        </button>
+                                    </form>
                                 </td>
                                 <td>@item.SongName</td>
                                 <td>@item.AlbumTitle</td>
@@ -154,7 +161,6 @@
                 if (Model.qplaylistInfo.Count == 0)
                 {
                     <p style="color:blue; font-weight:bold;">This playlist is empty or does not exist. Adding a track will create the playlist.</p>
-
                 }
                 else
                 {
@@ -170,7 +176,45 @@
                         </thead>
 
                         <tbody>
-                           @* code to demo CQRS for a table display*@
+                           @* code to demo CQRS for a table display
+
+                           a) Create an incoming control (hidden) that will act as a "unique index identifier" for each instance that will be created.
+                           b) On EACH property of the instance, use the value of your unique index identifier as an "[index]" attched to the name of the field.
+                              All incoming data that belongs to the same "[index]" will be collected on to the SAME instance of the command model.
+
+                              NOTE: Using this technique of name/value pair REPLACES the asp-for parameter
+                           *@
+                           @foreach(var item in Model.qplaylistInfo)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="cplaylistInfo.Index"
+                                               value="@item.TrackId">
+                                        <input type="hidden"
+                                               name="cplaylistInfo[@item.TrackId].TrackId"
+                                               value="@item.TrackId">
+                                        <input type="checkbox"
+                                               name="cplaylistInfo[@item.TrackId].SelectedTrack"
+                                               value="true">
+                                     </td>
+                                    <td>
+                                        <input type="hidden"
+                                               name="cplaylistInfo[@item.TrackId].TrackNumber"
+                                               value="@item.TrackNumber">
+                                        @item.TrackNumber
+                                    </td>
+                                    <td>
+                                        @item.SongName
+                                    </td>
+                                    <td>
+                                        @TimeSpan.FromMilliseconds(item.Milliseconds).ToString(@"mm\:ss")
+                                    </td>
+                                    <td>
+                                        <input type="text" class="smallbox"
+                                               name="cplaylistInfo[@item.TrackId].TrackInput">
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 }

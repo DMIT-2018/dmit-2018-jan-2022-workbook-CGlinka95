@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    @*link to css holiday:*@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/holiday.css@0.9.8" />
+    @*link to online icons: NEED TO GET*@
+    @*<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/"*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true" />
     <!--
@@ -48,6 +51,12 @@
                         <li><a asp-area="" asp-page="/SamplePages/Controls">Controls</a></li>
                         <li><a asp-area="" asp-page="/SamplePages/AlbumsByGenreQuery">Query using a paged table</a></li>
                     </ul>
+                </li>
+                <li>
+                    <a asp-area="" asp-page="/SamplePages/PlaylistManagement">Playlist</a>
+                </li>
+                <li>
+                    <a asp-area="" asp-page="/ListtoList">List to List</a>
                 </li>
                 <li>
                     <a asp-area="" asp-page="/Privacy">Privacy</a>

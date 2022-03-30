@@ -63,8 +63,10 @@ namespace WebApp.Pages.SamplePages
 
         public List<TrackSelection> trackInfo { get; set; }
 
+        // Query data model for playlist track table
         public List<PlaylistTrackInfo> qplaylistInfo { get; set; }
 
+        // Command data model for playlist track table
         [BindProperty]
         public List<PlaylistTrackMove> cplaylistInfo { get; set; }
 
@@ -173,8 +175,15 @@ namespace WebApp.Pages.SamplePages
                 }
 
                 // Add the code to add a track via the service.
-
+                // Obtain your username from security
+                // Using HansenB user, which has HansenB1, HansenB2, and maybe HansenB3 playlist
+                string username = USERNAME; // Will change when security is implemented
+                // Send data to the service
+                _playlisttrackServices.PlaylistTrack_AddTrack(playlistname.Trim(), username, addtrackid);
+                
+                // Set feedback success message
                 FeedBackMessage = "adding the track";
+
                 return RedirectToPage(new
                 {
                     searchby = searchBy,
@@ -204,7 +213,6 @@ namespace WebApp.Pages.SamplePages
 
                 return Page();
             }
-
         }
 
         public IActionResult OnPostRemove()
@@ -212,6 +220,50 @@ namespace WebApp.Pages.SamplePages
             try
             {
                 //Add the code to process the list of tracks via the service.
+                string username = USERNAME;
+                _playlisttrackServices.PlaylistTrack_RemoveTracks(playlistname.Trim(), username, cplaylistInfo);
+                FeedBackMessage = "Tracks have been removed";
+
+                return RedirectToPage(new
+                {
+                    searchBy = string.IsNullOrWhiteSpace(searchBy) ? " " : searchBy.Trim(),
+                    searchArg = string.IsNullOrWhiteSpace(searchArg) ? " " : searchArg.Trim(),
+                    playlistname = playlistname
+                });
+            }
+            catch (AggregateException ex)
+            {
+
+                ErrorMessage = "Unable to process remove tracks";
+                foreach (var error in ex.InnerExceptions)
+                {
+                    ErrorDetails.Add(error.Message);
+
+                }
+                GetTrackInfo();
+                GetPlaylist();
+
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = GetInnerException(ex).Message;
+                GetTrackInfo();
+                GetPlaylist();
+
+                return Page();
+            }
+
+        }
+
+        public IActionResult OnPostReOrg()
+        {
+            try
+            {
+                //Add the code to process the list of tracks via the service.
+                string username = USERNAME;
+                _playlisttrackServices.PlaylistTrack_MoveTracks(playlistname.Trim(), username, cplaylistInfo);
+                FeedBackMessage = "Tracks have been re-sequenced";
 
                 return RedirectToPage(new
                 {
