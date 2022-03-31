@@ -158,7 +158,7 @@
             <br /><br />
             @if (Model.qplaylistInfo != null)
             {
-                if (Model.qplaylistInfo.Count == 0)
+                if (Model.qplaylistInfo.Count() == 0)
                 {
                     <p style="color:blue; font-weight:bold;">This playlist is empty or does not exist. Adding a track will create the playlist.</p>
                 }

@@ -25,7 +25,7 @@ namespace ChinookSystem.BLL
         }
         #endregion
 
-        #region 
+        #region Query 
         public List<TrackSelection> Track_FetchTracksBy(string searcharg,
                                                        string searchby,
                                                        int pagenumber,
@@ -54,6 +54,6 @@ namespace ChinookSystem.BLL
             int skipRows = (pagenumber - 1) * pagesize;
             return info.Skip(skipRows).Take(pagesize).ToList();
         }
-        #endregion
+        #endregion 
     }
 }
